@@ -1,47 +1,50 @@
-class Department {
-    // private readonly id: string;
-    // public name : string;
-    private employees: string[] = [];
+//type AddFn = (a: number, b: number) => number;
 
-    constructor(private readonly id:string, public name: string) {
-        //this.id = id;
-        //this.name = n;
-    }
-
-    describe(this: Department) {
-        console.log(`Department (${this.id}): ${this.name} `);
-    }
-
-    addEmployee(employee: string) {
-        this.employees.push(employee);
-    }
-
-    printEmployeeInformation() {
-        console.log(this.employees.length);
-        console.log(this.employees);
-    }
+interface AddFn {
+    (a: number, b: number): number;
 }
 
-class ITDepartment extends Department{
-    admins: string[];
-    constructor(id: string, public admin: string[]) {
-        super(id, 'IT');
-        this.admins = admin;
-    }
+let add: AddFn;
+
+add = (n1: number, n2:number) => {
+    return n1 + n2;
 }
 
-const it = new ITDepartment('d1', ['Max']);
+interface Named {
+    readonly name?: string;
+    outputName?: string;
+}
 
-it.addEmployee('Max');
-it.addEmployee('Ula');
+interface Greetable extends Named{
+    greet(phrase: string): void;
+}
 
-//accounting.employees[2] = 'anna';
+class Person implements Greetable {
+    name?: string;
+    age = 30;
+    outputName = '...'
 
-it.describe();
-it.name = 'new name';
-it.printEmployeeInformation();
+    constructor(n?: string) {
+        if (n) {
+            this.name = n;
+        }
+    }
 
-//const accountingCopy = { name: 's', describe: it.describe};
+    greet(phrase: string) {
+        if (this.name) {
+            console.log(phrase + ' ' + this.name);
+        } else {
+            console.log('hi');
+        }
 
-//accountingCopy.describe();
-console.log(it);
+    }
+
+}
+
+let user1: Greetable;
+
+user1 = new Person('ula');
+
+user1.greet(('hi there - i am'));
+
+console.log(user1);
